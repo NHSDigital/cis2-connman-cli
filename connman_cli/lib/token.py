@@ -12,7 +12,7 @@ from connman_cli.lib import log
 from connman_cli.lib.constants import AppPaths, CIS2Environments
 
 
-def decode_token_from_headers(headers: CaseInsensitiveDict[str]):
+def decode_token_from_headers(headers: CaseInsensitiveDict):
     """Decode Connection Manager access token from the response headers"""
     raw_session_cookie = headers.get("set-cookie")
     session_cookie = SimpleCookie(raw_session_cookie)
