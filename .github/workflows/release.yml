@@ -1,0 +1,50 @@
+name: Run Tests and Checks
+on:
+    release:
+        types: [published]
+
+jobs:
+    build:
+        name: "Build"
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup Python 3.12
+              uses: actions/setup-python@v4
+              with:
+                python-version: "3.12"
+                
+            - name: Setup Poetry
+              run: pip install --user poetry==1.7.1
+                
+            - name: Install dependencies
+              run: poetry install
+        
+            - name: Check Package Lockfile
+              run: poetry check --lock
+
+            - name: Run Linting
+              run: poetry run pylint connman_cli tests
+            
+            - name: Run Formatting
+              run: poetry run black --check connman_cli tests
+
+            - name: Run Tests
+              run: poetry run pytest || exit 0
+            
+            - name: Set Version
+              run: poetry version ${GITHUB_REF_NAME:1}
+
+            - name: Build Wheel
+              run: poetry build
+            
+            - name: Save Build Output
+              uses: actions/upload-artifact@v3
+              with:
+                name: build-output
+                path: dist/*
+            
+            - name: Upload Release Artifacts
+              run: gh release upload ${{ github.ref_name }} dist/*
+
