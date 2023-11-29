@@ -1,4 +1,4 @@
-name: Run Tests and Checks
+name: Release
 on:
     release:
         types: [published]
