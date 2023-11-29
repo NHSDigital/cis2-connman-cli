@@ -13,7 +13,11 @@ from typing_extensions import Annotated
 
 from connman_cli.lib import log, api_client
 from connman_cli.lib.constants import CIS2Environments
-from connman_cli.lib.token import cache_token, get_cached_token, decode_token_from_headers
+from connman_cli.lib.token import (
+    cache_token,
+    get_cached_token,
+    decode_token_from_headers,
+)
 from connman_cli.lib.config import get_config, write_config
 
 app = typer.Typer()
