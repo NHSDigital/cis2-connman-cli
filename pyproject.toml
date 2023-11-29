@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "connman-cli"
+version = "0.1.0"
+description = ""
+authors = ["Thomas Judd-Cooper <thomas.judd-cooper1@nhs.net>"]
+readme = "README.md"
+packages = [{include = "connman_cli"}]
+
+[tool.poetry.scripts]
+connman = "connman_cli.main:main"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+typer = {extras = ["all"], version = "^0.9.0"}
+requests = "^2.31.0"
+pyjwt = {extras = ["crypto"], version = "^2.8.0"}
+
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.0.2"
+black = "^23.11.0"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
