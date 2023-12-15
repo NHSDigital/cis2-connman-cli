@@ -8,6 +8,7 @@ import typer
 from typing_extensions import Annotated
 
 from connman_cli.commands import auth, config, ping, profile
+from connman_cli.lib.config import check_config
 
 app = typer.Typer()
 
@@ -31,3 +32,4 @@ def main(
     """Set Main Command Arguments"""
     os.environ.setdefault("CONNMAN_SILENT", str(quiet))
     os.environ.setdefault("CONNMAN_COLOUR", str(colour))
+    check_config()
