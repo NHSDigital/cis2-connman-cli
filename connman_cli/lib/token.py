@@ -3,7 +3,6 @@ Token utilities
 """
 import json
 from datetime import datetime
-from http.cookies import SimpleCookie
 
 import jwt
 from requests.models import CaseInsensitiveDict
@@ -12,11 +11,30 @@ from connman_cli.lib import log
 from connman_cli.lib.constants import AppPaths, CIS2Environments
 
 
+def parse_dict_cookies(cookies):
+    """Parse the request cookies into a dictionary"""
+    result = {}
+    for item in cookies.split(";"):
+        item = item.strip()
+        if not item:
+            continue
+
+        if "=" not in item:
+            result[item] = None
+            continue
+
+        name, value = item.split("=", 1)
+        result[name] = value
+
+    return result
+
+
 def decode_token_from_headers(headers: CaseInsensitiveDict):
     """Decode Connection Manager access token from the response headers"""
     raw_session_cookie = headers.get("set-cookie")
-    session_cookie = SimpleCookie(raw_session_cookie)
-    token = session_cookie["__Host-session"].value
+    session_cookie = parse_dict_cookies(raw_session_cookie)
+
+    token = session_cookie["__Host-session"]
 
     return token, jwt.decode(token, options={"verify_signature": False})
 

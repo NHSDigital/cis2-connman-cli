@@ -86,10 +86,11 @@ def define_profiles(config: configparser.ConfigParser):
 
         return None
 
-    except Exception:  # pylint: disable=broad-exception-caught
+    except Exception as exc:  # pylint: disable=broad-exception-caught
         log.error(
-            f"Failed to validate the provided secret against the {env.value} environment."
+            f"Failed to validate the provided secret against the {env.value} environment.",
         )
+        log.exception(exc)
         if typer.confirm("Would you like to try again?"):
             return define_profiles(config)
 

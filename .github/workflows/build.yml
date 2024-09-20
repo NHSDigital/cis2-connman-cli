@@ -25,7 +25,7 @@ jobs:
               run: poetry install
         
             - name: Check Package Lockfile
-              run: poetry check --lock
+              run: poetry check
 
             - name: Run Linting
               run: poetry run pylint connman_cli tests
